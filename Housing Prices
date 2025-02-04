@@ -1,0 +1,60 @@
+import numpy as np
+import tensorflow as tf
+import unittests
+
+def create_training_data():
+    
+    # Define feature and target tensors with the values for houses with 1 up to 6 bedrooms. 
+    # For this exercise, please arrange the values in ascending order (i.e. 1, 2, 3, and so on).
+    # Hint: Remember to explictly set the dtype as float when defining the numpy arrays
+    n_bedrooms = np.array([1.0,4.0,2.0,3.0,5.0, 6.0], dtype=float)
+    price_in_hundreds_of_thousands = np.array([50000.0, 200000.0, 100000.0, 150000.0, 250000.0, 300000.0], dtype=float)
+
+    return n_bedrooms, price_in_hundreds_of_thousands
+
+
+features, targets = create_training_data()
+print(f"Features have shape: {features.shape}")
+print(f"Targets have shape: {targets.shape}")
+
+
+
+
+# Test your code!
+unittests.test_create_training_data(create_training_data)
+
+
+def define_and_compile_model():
+
+    # Define your model
+    model = tf.keras.Sequential([ 
+		tf.keras.Input(shape=[1]),
+
+        # Add a Dense layer
+        tf.keras.layers.Dense(units=1)
+	]) 
+    
+    # Compile your model
+    model.compile(optimizer='sgd', loss='mean_squared_error')
+    return model
+
+untrained_model = define_and_compile_model()
+
+untrained_model.summary()
+
+
+
+def train_model():
+    # Define feature and target tensors with the values for houses with 1 up to 6 bedrooms
+    # Hint: Remember you already coded a function that does this!
+    n_bedrooms, price_in_hundreds_of_thousands = create_training_data()
+    
+    # Define a compiled (but untrained) model
+    # Hint: Remember you already coded a function that does this!
+    model = define_and_compile_model()
+    
+    # Train your model for 500 epochs by feeding the training data
+    model.fit(n_bedrooms, price_in_hundreds_of_thousands, epochs=500)
+    return model
+
+trained_model = train_model()
